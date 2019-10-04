@@ -1,0 +1,33 @@
+.row{
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+.nav-item{
+  /* position: fixed;
+  top: 0; */
+  width: 100%;
+}
+
+button {
+  width: 65px;
+  height: 37px;
+  background-color: silver;
+}
+button.togle {
+  background-color: 343a40;
+  background-color: #343a40!important;
+  padding: 37px 0px;
+  color: #007bff;
+  margin-top: -2px;
+  position: fixed;
+  border: none;
+}
+.pagination {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  padding-left: 359px;
+  list-style: none;
+  border-radius: .25rem;
+}

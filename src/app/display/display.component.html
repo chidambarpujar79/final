@@ -1,0 +1,196 @@
+
+<div class="maincontainer">
+
+
+
+
+<div class="container">
+  <div class="row">
+    <input type="text" placeholder="Search" #f>&nbsp;
+    <button type="submit" class="btn btn-info"   (click)="onSearch(f.value)">Search</button>
+
+  </div>
+  <button class="btn btn-primary float-right" (click)="open(content)">Add Articles</button>&nbsp;&nbsp;
+  <table class="table table-hover table-striped">
+
+    <thead>
+      <tr>
+        <th scope="col">Index</th>
+        <th scope="col">article Name</th>
+        <th scope="col">Content</th>
+        <th scope="col">Created By</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of all_arr |paginate: config;let i=index;">
+        <th scope="row">{{i+1}}</th>
+        <td>{{item.articleName}}</td>
+        <td>{{item.createdDate}}</td>
+        <td>{{item.createdBy}}</td>
+        <td>
+
+          <button class="button btn-primary" (click)="openEditPopup(Edit,i)">Edit</button>&nbsp;
+          <button class="button btn-danger" (click)="onDelete(item)">Delete</button>
+          <!-- <button class="button btn-danger" (click)="openReadMore(readmore,item)">ReadMore</button> -->
+        </td>
+      </tr>
+
+    </tbody>
+  </table>
+  <!-- <pagination-controls (pageChange)="pageChange($event)" class="my-pagination"></pagination-controls> -->
+
+
+  <!-- <ngb-pagination [collectionSize]="12" [maxSize]="5" [boundaryLinks]="true"></ngb-pagination> -->
+
+</div>
+<ngb-pagination *ngIf="!ngVariable" [collectionSize]="70" class="pagination"   [rotate]="true" [(page)]="Page"  (pageChange)="showPage([Page])"  [boundaryLinks]="true"></ngb-pagination>
+
+</div>
+
+
+<ng-template #content let-modal>
+  <br>
+
+  <form [formGroup]="AddForm" class="container" (ngSubmit)="OnAddArticleSave(AddForm.value)">
+    <h4>Add Article</h4>
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-6 col-sm-4 col-md-6">
+          <label><b>Article Name</b></label>
+          <input formControlName="articleName" type="text" class="form-control">
+          <label class="alert alert-danger" *ngIf="AddForm.get('articleName').hasError('required') && !AddForm.get('articleName').pristine" >articleName is required.</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-6 col-sm-4 col-md-6">
+          <label><b>Content</b></label>
+          <input formControlName="content" type="text" class="form-control">
+        </div>
+      </div>
+    </div>
+    <!-- <div class="container">
+      <div class="row">
+        <div class="col-xs-6 col-sm-4 col-md-6">
+          <label><b>CreatedBy</b></label>
+          <input formControlName="createdBy" type="text" class="form-control">
+        </div>
+      </div>
+    </div> -->
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-6 col-sm-4 col-md-6">
+          <label><b>Category name</b></label>
+          <select formControlName="categoryId" class="form-control">
+            <option>Choose your category</option>
+            <option *ngFor="let item of cat" [value]="item.categoryId">{{item.categoryName}}
+            </option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <br>
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-6 col-sm-4 col-md-6">
+          <button class="btn btn-primary" [disabled]="!AddForm.valid" type="submit">Submit</button>&nbsp;
+          <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Close</button>
+        </div>
+      </div>
+    </div><br>
+    <br>
+  </form>
+</ng-template>
+
+
+
+<!-- edit popup -->
+
+<ng-template #Edit let-modal>
+  <br>
+  <form [formGroup]="AddForm" class="container" (ngSubmit)="UpdateArticles(AddForm.value)">
+    <h4>Edit Article</h4>
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-6 col-sm-4 col-md-6">
+          <label><b>Article Name</b></label>
+          <input formControlName="articleName" type="text" class="form-control">
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-6 col-sm-4 col-md-6">
+          <label><b>Content</b></label>
+          <input formControlName="content" type="text" class="form-control">
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-6 col-sm-4 col-md-6">
+          <label><b>CreatedBy</b></label>
+          <input formControlName="createdBy" type="text" class="form-control">
+        </div>
+      </div>
+    </div>
+    <div class="container">
+        <div class="row">
+          <div class="col-xs-6 col-sm-4 col-md-6">
+            <label><b>CreatedBy</b></label>
+            <select formControlName="categoryId" class="form-control">
+              <option>Choose your category</option>
+              <option *ngFor="let item of cat" [value]="item.categoryId">{{item.categoryName}}
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+    <br>
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-6 col-sm-4 col-md-6">
+          <button class="btn btn-primary" [disabled]="!AddForm.valid" type="submit">Submit</button>&nbsp;
+          <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Close</button>
+
+        </div>
+      </div>
+    </div><br>
+    <br>
+  </form>
+</ng-template>
+
+
+<ng-template #readmore let-model>
+
+  <div class="card text-center">
+    <div class="card-header">
+      {{Readmore?.articleName}}
+    </div>
+    <div class="card-header">
+
+      </div>
+      <div class="card-header">
+
+        </div>
+    <div class="card-body">
+      <h5 class="card-title" [innerHTML]='ReadMore?.content'></h5>
+      <p class="card-text"></p>
+      <a href="#" class="btn btn-primary"(click)="openEditPopup(Edit,i)">Edit</a>
+    </div>
+
+  </div>
+</ng-template>
+
+<app-pagenotfound *ngIf="error"></app-pagenotfound>
+
+
+
+
+
+
+<!-- <pre>Current page: {{page}}</pre> -->
